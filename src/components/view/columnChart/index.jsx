@@ -1,8 +1,9 @@
 import React from 'react'
+import ColumnChart from './columnChart'
 
 const ComponentLineChart = () => {
   return (
-    <div>index</div>
+    <ColumnChart/>
   )
 }
 

@@ -6,3 +6,8 @@
   font-weight: 800;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.parper-container { 
+ padding: 10px;
+ border-radius: 10px;
+}
