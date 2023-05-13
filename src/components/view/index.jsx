@@ -1,6 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
-import LineChart from "./columnChart";
+import { useEffect, useState } from "react";
+import ColumnChart from "./columnChart";
 import BarChart from "./barchart";
 import PropTypes from "prop-types";
 import { Typography } from "@mui/material";
@@ -8,16 +8,34 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { Button, Grid } from "@mui/material";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import { useLazyGetServicesQuery } from '../../logic/services'
+import { useLazyGetServicesQuery } from "../../logic/services";
 const Page = () => {
+  const [trigger, { data, error, isLoading }] = useLazyGetServicesQuery();
+  const [updateInfo, setUpdateInfo] = useState(false);
+  const mathRandom = Math.random();
+  useEffect(() => {
+    if (updateInfo) {
+      trigger({ id: mathRandom });
+      setUpdateInfo(false);
+    }
+  }, [mathRandom, trigger, updateInfo]);
 
-  const [ trigger, { data , error, isLoading}] = useLazyGetServicesQuery()
+  const hydroelectricPlants = [];
+  const thermal = [];
+  const solar = [];
+  const windPower = [];
+  const biogas = [];
 
-  useEffect(()=> { 
-    trigger();
-  },[trigger])
-  
-  console.log(data)
+  data &&
+    data?.unit?.map((el, i) => {
+      if (i >= 0 && i <= 115) hydroelectricPlants.push(el);
+      if (i >= 116 && i <= 163) thermal.push(el);
+      if (i >= 164 && i <= 209) solar.push(el);
+      if (i >= 210 && i <= 222) windPower.push(el);
+      if (i.length - 1) biogas.push(el);
+    });
+
+  const pie = data?.pie.map((val) => val);
 
   return (
     <>
@@ -43,6 +61,7 @@ const Page = () => {
                   variant="contained"
                   color="success"
                   sx={{ borderRadius: "10px" }}
+                  onClick={() => setUpdateInfo(true)}
                 >
                   {"Actualizar"}
                 </Button>
@@ -50,10 +69,16 @@ const Page = () => {
             </Grid>
             <Grid container justifyContent={"left"}>
               <Grid item xs={12} md={12} xl={12}>
-                <LineChart />
+                <ColumnChart
+                  hydro={hydroelectricPlants}
+                  thermal={thermal}
+                  solar={solar}
+                  windPower={windPower}
+                  biogas={biogas}
+                />
               </Grid>
               <Grid item xs={12} md={12} xl={12}>
-                <BarChart />
+                <BarChart props={pie} />
               </Grid>
             </Grid>
           </Paper>

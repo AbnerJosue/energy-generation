@@ -2,53 +2,58 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-function ColumnChart() {
+function ColumnChart({v1,v2, names}) {
+  console.log(v1, v2,names)
   const params = {
-    series: [100, 200, 300, 400],
-    chart: {
-      type: "bar",
+    series: [{
+      name: names[0],
+      data: [v1]
+    }, {
+      name: names[1],
+      data: [v2]
+    }],
+      chart: {
+      type: 'bar',
+      height: 350
     },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
+        columnWidth: '55%',
+        endingShape: 'rounded'
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: false
     },
     stroke: {
       show: true,
       width: 2,
-      colors: ["transparent"],
+      colors: ['transparent']
     },
     xaxis: {
-      categories: ["a", "b", "c", "d"],
+      categories: names,
     },
     fill: {
-      opacity: 1,
+      opacity: 1
     },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return "%" + val 
+        }
+      }
+    }
   };
 
   return (
-    // <Chart
-    //   height={460}
-    //   options={params}
-    //   series={params.series}
-    //   type="bar"
-    //   width={"100%"}
-    // />
-    <></>
+     <Chart
+       height={460}
+       options={params}
+       series={params.series}
+       type="bar"
+       width={"100%"}
+     />
   );
 }
 

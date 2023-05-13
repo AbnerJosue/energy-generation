@@ -4,9 +4,10 @@ export const sourceApi = api.injectEndpoints({
     endpoints: (builder) => (
         {
             getServices: builder.query({
-                query: (token) => ({
+                query: (id) => (console.log(id),{
                     url: '/api/data',
-                    method: 'get', 
+                    method: 'post',
+                    data: `${id}`,
                     headers: { 
                         'Content-Type': 'text/plain'
                       },
