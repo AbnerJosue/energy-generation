@@ -13,7 +13,12 @@ const Page = () => {
   const [trigger, { data, error, isLoading }] = useLazyGetServicesQuery();
   const [updateInfo, setUpdateInfo] = useState(false);
   const mathRandom = Math.random();
+  const [firstUpdate, setFirstUpdate] = useState(true); 
   useEffect(() => {
+    if(firstUpdate){ 
+      trigger({ id: mathRandom });
+      setFirstUpdate(false)
+    }
     if (updateInfo) {
       trigger({ id: mathRandom });
       setUpdateInfo(false);
@@ -39,6 +44,7 @@ const Page = () => {
 
   return (
     <>
+    <>{isLoading && ( <>Cargando</> )}</>
       <Box
         sx={{
           display: "flex",

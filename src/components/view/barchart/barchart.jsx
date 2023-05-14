@@ -9,17 +9,26 @@ const BarChart = ({series, colors,name}) => {
   }],
     chart: {
     type: 'bar',
-    height: 350
+    height: 350,
+    stacked: true
   },
   plotOptions: {
     bar: {
       borderRadius: 4,
-      horizontal: true, distributed: true,
-      horizontal: true,
+      horizontal: true, 
+      distributed: true,
+      endingShape: 'rounded'
     }
+  },
+  stroke: {
+    width: 1,
+    colors: ['#fff']
   },
   dataLabels: {
     enabled: false
+  },
+  fill: {
+    opacity: 1
   },
   colors: colors,
   xaxis: {
